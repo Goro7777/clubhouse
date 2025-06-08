@@ -124,6 +124,7 @@ app.get("/login", (req, res) => {
     // what if the user is already logged in?
     res.render("pages/login", {
         title: "Login",
+        links: [{ href: "/sign-up", text: "Sign-up" }],
     });
 });
 
@@ -136,6 +137,7 @@ app.post("/login", validateUserLogin, (req, res) => {
 
         res.render("pages/login", {
             title: "Login",
+            links: [{ href: "/sign-up", text: "Sign-up" }],
             values: req.body,
             errors: errorValues,
         });
@@ -149,6 +151,7 @@ app.get("/sign-up", (req, res) => {
     // what if the user is already logged in?
     res.render("pages/sign-up", {
         title: "Sing-up",
+        links: [{ href: "/login", text: "Login" }],
     });
 });
 
@@ -161,6 +164,7 @@ app.post("/sign-up", validateUserSignup, (req, res) => {
 
         res.render("pages/sign-up", {
             title: "Sing-up",
+            links: [{ href: "/login", text: "Login" }],
             values: req.body,
             errors: errorValues,
         });
