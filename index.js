@@ -20,12 +20,13 @@ app.get("/", (req, res) => {
     res.render("pages/index", {
         title: "Club House",
         links: [
-            { href: "/login", text: "Log In" },
-            { href: "/signup", text: "Sign Up" },
+            { href: "/login", text: "Login" },
+            { href: "/sign-up", text: "Sign-up" },
         ],
     });
 });
 
+// login
 app.get("/login", (req, res) => {
     // what if the user is already logged in?
     console.log("login page");
@@ -36,8 +37,22 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+    console.log("you've logged in");
+    res.redirect("/");
+});
+
+// signup
+app.get("/sign-up", (req, res) => {
     // what if the user is already logged in?
-    console.log("form has been submitted");
+    console.log("login page");
+    res.render("pages/sign-up", {
+        title: "Sing-up",
+        links: [],
+    });
+});
+
+app.post("/sign-up", (req, res) => {
+    console.log("you've signed up");
     res.redirect("/");
 });
 
