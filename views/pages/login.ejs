@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title, links }) %>
+<%- include('../partials/header', { title, links: locals.links }) %>
 <!-- Pills navs -->
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
@@ -31,10 +31,10 @@
                                     id="username"
                                     name="username"
                                     class="form-control form-control-lg"
-                                    value="<%= values.username  %>"
+                                    value="<%= locals.values?.username  %>"
                                     required
                                 />
-                                <% if (errors.username) { %>
+                                <% if (locals.errors?.username) { %>
                                 <div class="text-warning">
                                     <%= errors.username %>
                                 </div>
@@ -53,10 +53,10 @@
                                     id="password"
                                     name="password"
                                     class="form-control form-control-lg"
-                                    value="<%= values.password  %>"
+                                    value="<%= locals.values?.password  %>"
                                     required
                                 />
-                                <% if (errors.password) { %>
+                                <% if (locals.errors?.password) { %>
                                 <div class="text-warning">
                                     <%= errors.password %>
                                 </div>

@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title, links }) %>
+<%- include('../partials/header', { title, links: locals.links }) %>
 <!-- Pills navs -->
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
@@ -31,10 +31,10 @@
                                     id="username"
                                     name="username"
                                     class="form-control form-control-lg"
-                                    value="<%= values.username %>"
+                                    value="<%= locals.values?.username %>"
                                     required
                                 />
-                                <% if (errors.username) { %>
+                                <% if (locals.errors?.username) { %>
                                 <div class="text-warning">
                                     <%= errors.username %>
                                 </div>
@@ -52,10 +52,10 @@
                                     id="firstname"
                                     name="firstname"
                                     class="form-control form-control-lg"
-                                    value="<%= values.firstname  %>"
+                                    value="<%= locals.values?.firstname  %>"
                                     required
                                 />
-                                <% if (errors.firstname) { %>
+                                <% if (locals.errors?.firstname) { %>
                                 <div class="text-warning">
                                     <%= errors.firstname %>
                                 </div>
@@ -73,10 +73,10 @@
                                     id="lastname"
                                     name="lastname"
                                     class="form-control form-control-lg"
-                                    value="<%= values.lastname  %>"
+                                    value="<%= locals.values?.lastname  %>"
                                     required
                                 />
-                                <% if (errors.lastname) { %>
+                                <% if (locals.errors?.lastname) { %>
                                 <div class="text-warning">
                                     <%= errors.lastname %>
                                 </div>
@@ -94,10 +94,10 @@
                                     id="email"
                                     name="email"
                                     class="form-control form-control-lg"
-                                    value="<%= values.email  %>"
+                                    value="<%= locals.values?.email  %>"
                                     required
                                 />
-                                <% if (errors.email) { %>
+                                <% if (locals.errors?.email) { %>
                                 <div class="text-warning">
                                     <%= errors.email %>
                                 </div>
@@ -115,10 +115,10 @@
                                     id="password"
                                     name="password"
                                     class="form-control form-control-lg"
-                                    value="<%= values.password  %>"
+                                    value="<%= locals.values?.password  %>"
                                     required
                                 />
-                                <% if (errors.password) { %>
+                                <% if (locals.errors?.password) { %>
                                 <div class="text-warning">
                                     <%= errors.password %>
                                 </div>
@@ -136,10 +136,10 @@
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     class="form-control form-control-lg"
-                                    value="<%= values.confirmPassword  %>"
+                                    value="<%= locals.values?.confirmPassword  %>"
                                     required
                                 />
-                                <% if (errors.confirmPassword) { %>
+                                <% if (locals.errors?.confirmPassword) { %>
                                 <div class="text-warning">
                                     <%= errors.confirmPassword %>
                                 </div>

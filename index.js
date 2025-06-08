@@ -2,8 +2,6 @@ const path = require("node:path");
 const express = require("express");
 require("dotenv").config();
 const { body, validationResult } = require("express-validator");
-const { error } = require("node:console");
-const { values } = require("lodash");
 
 /**
  * ---------------------- USERS ----------------------
@@ -124,12 +122,8 @@ app.get("/", (req, res) => {
 // login
 app.get("/login", (req, res) => {
     // what if the user is already logged in?
-    console.log("login page");
     res.render("pages/login", {
         title: "Login",
-        links: [],
-        errors: {},
-        values: {},
     });
 });
 
@@ -142,12 +136,10 @@ app.post("/login", validateUserLogin, (req, res) => {
 
         res.render("pages/login", {
             title: "Login",
-            links: [],
             values: req.body,
             errors: errorValues,
         });
     } else {
-        console.log("you've logged in");
         res.redirect("/");
     }
 });
@@ -155,12 +147,8 @@ app.post("/login", validateUserLogin, (req, res) => {
 // signup
 app.get("/sign-up", (req, res) => {
     // what if the user is already logged in?
-    console.log("login page");
     res.render("pages/sign-up", {
         title: "Sing-up",
-        links: [],
-        errors: {},
-        values: {},
     });
 });
 
@@ -173,12 +161,10 @@ app.post("/sign-up", validateUserSignup, (req, res) => {
 
         res.render("pages/sign-up", {
             title: "Sing-up",
-            links: [],
             values: req.body,
             errors: errorValues,
         });
     } else {
-        console.log("you've signed up");
         addUser(req.body);
         res.redirect("/");
     }

@@ -16,13 +16,13 @@
                     ></strong
                 >
             </li>
-            <% for (let link of links) { %>
+            <% if (locals.links) { for (let link of locals.links) { %>
             <li class="nav-item d-flex align-items-center">
                 <a class="btn btn-success" href="<%= link.href %>"
                     ><%= link.text %></a
                 >
             </li>
-            <% } %>
+            <% }} %>
         </ul>
     </body>
 </html>
