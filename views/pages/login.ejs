@@ -23,32 +23,44 @@
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="username"
+                                    >Username</label
+                                >
                                 <input
                                     type="text"
                                     id="username"
                                     name="username"
                                     class="form-control form-control-lg"
+                                    value="<%= values.username  %>"
                                     required
                                 />
-                                <label class="form-label" for="username"
-                                    >Username</label
-                                >
+                                <% if (errors.username) { %>
+                                <div class="text-warning">
+                                    <%= errors.username %>
+                                </div>
+                                <% } %>
                             </div>
 
                             <div
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="password"
+                                    >Password</label
+                                >
                                 <input
                                     type="password"
                                     id="password"
                                     name="password"
                                     class="form-control form-control-lg"
+                                    value="<%= values.password  %>"
                                     required
                                 />
-                                <label class="form-label" for="password"
-                                    >Password</label
-                                >
+                                <% if (errors.password) { %>
+                                <div class="text-warning">
+                                    <%= errors.password %>
+                                </div>
+                                <% } %>
                             </div>
 
                             <button

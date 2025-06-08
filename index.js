@@ -16,8 +16,24 @@ const users = [
         lastname: "Smith",
         email: "play@mail.ru",
         password: "123456",
+        isMember: false,
+        isAdmin: false,
     },
 ];
+
+function addUser(userData) {
+    let { username, firstname, lastname, email, password } = userData;
+    let user = {
+        username,
+        firstname,
+        lastname,
+        email,
+        password,
+        isMember: false,
+        isAdmin: false,
+    };
+    users.push(user);
+}
 
 /**
  * ---------------------- VALIDATION ----------------------
@@ -60,6 +76,25 @@ const validateUserSignup = [
         }),
 ];
 
+const validateUserLogin = [
+    body("username")
+        .trim()
+        .custom((value) => {
+            let user = users.find((user) => user.username === value);
+            if (!user) {
+                throw new Error("Username not found");
+            }
+            return true;
+        }),
+    body("password").custom((value, { req }) => {
+        let user = users.find((user) => user.username === req.body.username);
+        if (user && user.password !== value) {
+            throw new Error("Incorrect password");
+        }
+        return true;
+    }),
+];
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -75,6 +110,8 @@ app.use(
 );
 
 app.get("/", (req, res) => {
+    console.log("------------ USERS ------------");
+    console.log(users);
     res.render("pages/index", {
         title: "Club House",
         links: [
@@ -91,12 +128,28 @@ app.get("/login", (req, res) => {
     res.render("pages/login", {
         title: "Login",
         links: [],
+        errors: {},
+        values: {},
     });
 });
 
-app.post("/login", (req, res) => {
-    console.log("you've logged in");
-    res.redirect("/");
+app.post("/login", validateUserLogin, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        errorValues = Object.fromEntries(
+            errors.errors.map((error) => [error.path, error.msg])
+        );
+
+        res.render("pages/login", {
+            title: "Login",
+            links: [],
+            values: req.body,
+            errors: errorValues,
+        });
+    } else {
+        console.log("you've logged in");
+        res.redirect("/");
+    }
 });
 
 // signup
@@ -117,8 +170,7 @@ app.post("/sign-up", validateUserSignup, (req, res) => {
         errorValues = Object.fromEntries(
             errors.errors.map((error) => [error.path, error.msg])
         );
-        console.log("--------------------");
-        console.log(errorValues);
+
         res.render("pages/sign-up", {
             title: "Sing-up",
             links: [],
@@ -127,7 +179,7 @@ app.post("/sign-up", validateUserSignup, (req, res) => {
         });
     } else {
         console.log("you've signed up");
-        console.log(req.body);
+        addUser(req.body);
         res.redirect("/");
     }
 });
