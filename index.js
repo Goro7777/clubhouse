@@ -17,7 +17,13 @@ app.use(
 );
 
 app.use("/", (req, res) => {
-    res.render("index");
+    res.render("pages/index", {
+        title: "Club House",
+        links: [
+            { href: "/login", text: "Log In" },
+            { href: "/signup", text: "Sign Up" },
+        ],
+    });
 });
 
 // catch-all middleware for handling errors
