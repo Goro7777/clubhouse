@@ -23,85 +23,127 @@
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="username"
+                                    >Username</label
+                                >
                                 <input
                                     type="text"
                                     id="username"
                                     name="username"
                                     class="form-control form-control-lg"
+                                    value="<%= values.username %>"
+                                    required
                                 />
-                                <label class="form-label" for="username"
-                                    >Username</label
-                                >
+                                <% if (errors.username) { %>
+                                <div class="text-warning">
+                                    <%= errors.username %>
+                                </div>
+                                <% } %>
                             </div>
                             <div
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="firstname"
+                                    >First name</label
+                                >
                                 <input
                                     type="text"
                                     id="firstname"
                                     name="firstname"
                                     class="form-control form-control-lg"
+                                    value="<%= values.firstname  %>"
+                                    required
                                 />
-                                <label class="form-label" for="firstname"
-                                    >First name</label
-                                >
+                                <% if (errors.firstname) { %>
+                                <div class="text-warning">
+                                    <%= errors.firstname %>
+                                </div>
+                                <% } %>
                             </div>
                             <div
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="lastname"
+                                    >Last name</label
+                                >
                                 <input
                                     type="text"
                                     id="lastname"
                                     name="lastname"
                                     class="form-control form-control-lg"
+                                    value="<%= values.lastname  %>"
+                                    required
                                 />
-                                <label class="form-label" for="lastname"
-                                    >Last name</label
-                                >
+                                <% if (errors.lastname) { %>
+                                <div class="text-warning">
+                                    <%= errors.lastname %>
+                                </div>
+                                <% } %>
                             </div>
                             <div
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="email"
+                                    >Email</label
+                                >
                                 <input
                                     type="email"
                                     id="email"
                                     name="email"
                                     class="form-control form-control-lg"
+                                    value="<%= values.email  %>"
+                                    required
                                 />
-                                <label class="form-label" for="email"
-                                    >Email</label
-                                >
+                                <% if (errors.email) { %>
+                                <div class="text-warning">
+                                    <%= errors.email %>
+                                </div>
+                                <% } %>
                             </div>
                             <div
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="password"
+                                    >Password</label
+                                >
                                 <input
                                     type="password"
                                     id="password"
                                     name="password"
                                     class="form-control form-control-lg"
+                                    value="<%= values.password  %>"
+                                    required
                                 />
-                                <label class="form-label" for="password"
-                                    >Password</label
-                                >
+                                <% if (errors.password) { %>
+                                <div class="text-warning">
+                                    <%= errors.password %>
+                                </div>
+                                <% } %>
                             </div>
                             <div
                                 data-mdb-input-init
                                 class="form-outline form-white mb-4"
                             >
+                                <label class="form-label" for="confirmPassword"
+                                    >Confirm password</label
+                                >
                                 <input
                                     type="password"
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     class="form-control form-control-lg"
+                                    value="<%= values.confirmPassword  %>"
+                                    required
                                 />
-                                <label class="form-label" for="confirmPassword"
-                                    >Confirm password</label
-                                >
+                                <% if (errors.confirmPassword) { %>
+                                <div class="text-warning">
+                                    <%= errors.confirmPassword %>
+                                </div>
+                                <% } %>
                             </div>
 
                             <button
