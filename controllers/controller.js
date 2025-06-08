@@ -3,7 +3,7 @@ const {
     validateUserSignup,
     validateUserLogin,
 } = require("../validation/validation");
-const { users, addUser } = require("../storage/storage");
+const { users, posts, addUser } = require("../storage/storage");
 
 const getAllMessages = (req, res) => {
     console.log("------------ USERS ------------");
@@ -14,6 +14,7 @@ const getAllMessages = (req, res) => {
             { href: "/login", text: "Login" },
             { href: "/sign-up", text: "Sign-up" },
         ],
+        posts,
     });
 };
 
