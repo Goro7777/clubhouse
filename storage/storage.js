@@ -1,14 +1,16 @@
-const users = [
-    {
-        username: "bobo",
-        firstname: "John",
-        lastname: "Smith",
-        email: "play@mail.ru",
-        password: "123456",
-        isMember: false,
-        isAdmin: false,
-    },
-];
+// const users = [
+//     {
+//         username: "bobo",
+//         firstname: "John",
+//         lastname: "Smith",
+//         email: "play@mail.ru",
+//         password: "123456",
+//         isMember: false,
+//         isAdmin: false,
+//     },
+// ];
+
+const users = [];
 
 function addUser(userData) {
     let { username, firstname, lastname, email, password } = userData;

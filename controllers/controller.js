@@ -1,12 +1,15 @@
+const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const {
     validateUserSignup,
     validateUserLogin,
 } = require("../validation/validation");
-const { users, posts, addUser } = require("../storage/storage");
+const { posts } = require("../storage/storage");
+const { addUser, getAllUsers } = require("../db/queries");
 
-const getAllMessages = (req, res) => {
+const getAllMessages = async (req, res) => {
     console.log("------------ USERS ------------");
+    let users = await getAllUsers();
     console.log(users);
     res.render("pages/index", {
         title: "Club House",
@@ -61,7 +64,7 @@ const signupGet = (req, res) => {
 
 const signupPost = [
     validateUserSignup,
-    (req, res) => {
+    async (req, res) => {
         console.log("sign-up post");
 
         const errors = validationResult(req);
@@ -77,7 +80,14 @@ const signupPost = [
                 errors: errorValues,
             });
         } else {
-            addUser(req.body);
+            let user = { ...req.body };
+            let hashedPassword = await bcrypt.hash(user.password, 10);
+            user.hashedPassword = hashedPassword;
+            user.isMember = false;
+            user.isAdmin = false;
+            user.joinedOn = new Date();
+            delete user.confirmPassword;
+            addUser(user);
             res.redirect("/");
         }
     },
