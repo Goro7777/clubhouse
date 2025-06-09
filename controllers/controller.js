@@ -1,9 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-const {
-    validateUserSignup,
-    validateUserLogin,
-} = require("../validation/validation");
+const { validateUserSignup } = require("../validation/validation");
+const passport = require("passport");
 const { posts } = require("../storage/storage");
 const db = require("../db/queries");
 
@@ -16,12 +14,14 @@ const getAllMessages = async (req, res) => {
             { href: "/login", text: "Login" },
             { href: "/sign-up", text: "Sign-up" },
         ],
+        user: req.user,
         posts,
     });
 };
 
 const loginGet = (req, res) => {
-    // console.log("login get");
+    console.log("req.authInfo");
+    console.log(req.authInfo);
 
     res.render("pages/login", {
         title: "Login",
@@ -29,8 +29,13 @@ const loginGet = (req, res) => {
     });
 };
 
-const loginPost = [
-    validateUserLogin,
+const loginPost = passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+});
+
+const loginPostOld = [
+    // validateUserLogin,
     (req, res) => {
         // console.log("login post");
 
@@ -92,10 +97,20 @@ const signupPost = [
     },
 ];
 
+const logoutGet = (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
+};
+
 module.exports = {
     getAllMessages,
     loginGet,
     loginPost,
     signupGet,
     signupPost,
+    logoutGet,
 };

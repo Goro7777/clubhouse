@@ -1,5 +1,4 @@
 const { body } = require("express-validator");
-const bcrypt = require("bcryptjs");
 const db = require("../db/queries");
 
 const validateUserSignup = [
@@ -35,28 +34,6 @@ const validateUserSignup = [
         }),
 ];
 
-const validateUserLogin = [
-    body("username")
-        .trim()
-        .custom(async (value) => {
-            let user = await db.getByField("username", value);
-            if (!user) throw new Error("Username not found");
-
-            return true;
-        }),
-    body("password").custom(async (value, { req }) => {
-        let user = await db.getByField("username", req.body.username);
-        console.log(user);
-        if (!user) return true;
-
-        let match = await bcrypt.compare(value, user.password);
-        if (!match) throw new Error("Incorrect password");
-
-        return true;
-    }),
-];
-
 module.exports = {
     validateUserSignup,
-    validateUserLogin,
 };

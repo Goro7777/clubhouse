@@ -3,7 +3,11 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-11 col-lg-9 col-xl-7">
             <!-- <div class="card bg-success text-white" style="border-radius: 1rem"> -->
-            <% for (let post of posts) { %>
+            <% if (locals.user) {%>
+            <h1>WELCOME BACK <%= user.username %></h1>
+            <a href="/logout">LOG OUT</a>
+            <% } %> <% for (let post of posts) { %>
+
             <div
                 class="card-body mb-4 border border-2 border-success rounded-4 p-3"
             >
