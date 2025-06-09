@@ -9,16 +9,18 @@
             >
                 <h5 class="card-title mb-1"><%= post.title %></h5>
                 <p class="card-text"><%= post.text %></p>
-                <% if (post.isMember) { %>
+
                 <p class="card-text">
-                    <strong><em><%= post.fullname %></em></strong>
-                </p>
-                <p class="card-text">
-                    <small class="text-body-secondary"
-                        ><%= post.time.toGMTString() %></small
+                    <span class="text-warning">By:</span>
+                    <strong
+                        ><em><%= post.isMember && post.fullname %></em></strong
                     >
+                    <br />
+                    <span class="text-warning">Last edited:</span>
+                    <small class="text-body-secondary"
+                        ><%= post.isMember && post.time.toGMTString() %>
+                    </small>
                 </p>
-                <% } else { %> <% } %>
             </div>
             <% } %>
             <!-- </div> -->
