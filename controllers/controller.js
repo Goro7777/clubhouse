@@ -19,19 +19,34 @@ const getAllMessages = async (req, res) => {
     });
 };
 
-const loginGet = (req, res) => {
-    console.log("req.authInfo");
-    console.log(req.authInfo);
+const loginGet = async (req, res) => {
+    if (req.isAuthenticated()) {
+        res.send("<h1>You are already logged in</h1>");
+        return;
+    }
+    console.log("error messages:");
+    let errors = {};
+    let values;
+    if (req.session.messages?.length) {
+        let errorMessage = req.session.messages.pop();
+        let [field, message, username, password] = errorMessage.split(":");
+        errors[field] = message;
+        values = { username, password };
+        req.session.messages.length = 0;
+    }
 
     res.render("pages/login", {
         title: "Login",
         links: [{ href: "/sign-up", text: "Sign-up" }],
+        errors,
+        values,
     });
 };
 
 const loginPost = passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
+    failureMessage: true,
 });
 
 const loginPostOld = [

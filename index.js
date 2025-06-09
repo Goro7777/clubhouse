@@ -5,6 +5,7 @@ const session = require("express-session");
 const passport = require("passport");
 const pgSession = require("connect-pg-simple")(session);
 const pool = require("./db/pool");
+
 const router = require("./routes/router");
 
 const app = express();
