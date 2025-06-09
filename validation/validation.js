@@ -1,27 +1,24 @@
 const { body } = require("express-validator");
-const { users } = require("../storage/storage");
+const bcrypt = require("bcryptjs");
+const db = require("../db/queries");
 
 const validateUserSignup = [
     body("username")
         .trim()
-        .custom((value) => {
-            const usernameFoundInDb = users.find(
-                (user) => user.username === value
-            );
-            if (usernameFoundInDb) {
-                throw new Error("Username already in use");
-            }
+        .custom(async (value) => {
+            let usernameTaken = await db.getByField("username", value);
+            if (usernameTaken) throw new Error("Username already in use");
+
             return true;
         }),
     body("email")
         .trim()
         .isEmail()
         .withMessage("Not a valid e-mail address")
-        .custom((value) => {
-            const emailFoundInDb = users.find((user) => user.email === value);
-            if (emailFoundInDb) {
-                throw new Error("E-mail already in use");
-            }
+        .custom(async (value) => {
+            let emailTaken = await db.getByField("email", value);
+            if (emailTaken) throw new Error("E-mail already in use");
+
             return true;
         }),
 
@@ -41,18 +38,20 @@ const validateUserSignup = [
 const validateUserLogin = [
     body("username")
         .trim()
-        .custom((value) => {
-            let user = users.find((user) => user.username === value);
-            if (!user) {
-                throw new Error("Username not found");
-            }
+        .custom(async (value) => {
+            let user = await db.getByField("username", value);
+            if (!user) throw new Error("Username not found");
+
             return true;
         }),
-    body("password").custom((value, { req }) => {
-        let user = users.find((user) => user.username === req.body.username);
-        if (user && user.password !== value) {
-            throw new Error("Incorrect password");
-        }
+    body("password").custom(async (value, { req }) => {
+        let user = await db.getByField("username", req.body.username);
+        console.log(user);
+        if (!user) return true;
+
+        let match = await bcrypt.compare(value, user.password);
+        if (!match) throw new Error("Incorrect password");
+
         return true;
     }),
 ];

@@ -37,6 +37,13 @@ async function getAllUsers() {
     return rows;
 }
 
+async function getByField(fieldName, fieldValue) {
+    const { rows } = await pool.query(
+        `SELECT * FROM users WHERE ${fieldName} = '${fieldValue}'`
+    );
+    return rows[0];
+}
+
 //
 async function getAllMessages() {
     const { rows } = await pool.query(
@@ -75,4 +82,5 @@ async function editMessage(message) {
 module.exports = {
     addUser,
     getAllUsers,
+    getByField,
 };

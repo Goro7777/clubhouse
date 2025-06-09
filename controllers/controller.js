@@ -5,11 +5,10 @@ const {
     validateUserLogin,
 } = require("../validation/validation");
 const { posts } = require("../storage/storage");
-const { addUser, getAllUsers } = require("../db/queries");
+const db = require("../db/queries");
 
 const getAllMessages = async (req, res) => {
-    console.log("------------ USERS ------------");
-    let users = await getAllUsers();
+    let users = await db.getAllUsers();
     console.log(users);
     res.render("pages/index", {
         title: "Club House",
@@ -22,7 +21,7 @@ const getAllMessages = async (req, res) => {
 };
 
 const loginGet = (req, res) => {
-    console.log("login get");
+    // console.log("login get");
 
     res.render("pages/login", {
         title: "Login",
@@ -33,7 +32,7 @@ const loginGet = (req, res) => {
 const loginPost = [
     validateUserLogin,
     (req, res) => {
-        console.log("login post");
+        // console.log("login post");
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -54,7 +53,7 @@ const loginPost = [
 ];
 
 const signupGet = (req, res) => {
-    console.log("sign-up get");
+    // console.log("sign-up get");
     // what if the user is already logged in?
     res.render("pages/sign-up", {
         title: "Sing-up",
@@ -65,7 +64,7 @@ const signupGet = (req, res) => {
 const signupPost = [
     validateUserSignup,
     async (req, res) => {
-        console.log("sign-up post");
+        // console.log("sign-up post");
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -87,7 +86,7 @@ const signupPost = [
             user.isAdmin = false;
             user.joinedOn = new Date();
             delete user.confirmPassword;
-            addUser(user);
+            db.addUser(user);
             res.redirect("/");
         }
     },
