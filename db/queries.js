@@ -54,7 +54,7 @@ async function addPost(post) {
 
 async function getAllPosts() {
     const { rows } = await pool.query(
-        "SELECT * FROM posts JOIN users ON posts.userId = users.id ORDER BY postedOn DESC"
+        "SELECT * FROM posts JOIN users ON posts.userId = users.userId ORDER BY postedOn DESC"
     );
     return rows;
 }

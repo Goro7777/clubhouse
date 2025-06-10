@@ -6,7 +6,7 @@ const db = require("../db/queries");
 
 const allPostsGet = async (req, res) => {
     let posts = await db.getAllPosts();
-    // console.log(posts);
+    console.log(posts[0]);
     res.render("pages/index", {
         posts,
     });
@@ -122,7 +122,7 @@ const newPostPost = [
             console.log("Adding new post to db...");
             let post = {
                 ...req.body,
-                userId: req.user.id,
+                userId: req.user.userid,
                 postedOn: new Date(),
             };
             await db.addPost(post);

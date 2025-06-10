@@ -31,12 +31,12 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user.userid);
 });
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await db.getUserByField("id", id);
+        const user = await db.getUserByField("userid", id);
         done(null, user);
     } catch (err) {
         done(err);

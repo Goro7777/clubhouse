@@ -10,7 +10,7 @@ user_id, time, title, text
 */
 let SQL = `
 CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    userId INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     username TEXT,
     firstname TEXT,
     lastname TEXT,
@@ -22,11 +22,11 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS posts (
-    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    postId INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     title TEXT,
     text TEXT,
     postedOn TIMESTAMP,
-    userId INTEGER REFERENCES users (id)
+    userId INTEGER REFERENCES users (userId)
 );
 
 
