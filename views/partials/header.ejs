@@ -16,17 +16,21 @@
                     ></strong
                 >
             </li>
-            <% if (locals.links) { for (let link of locals.links) { %>
+            <% if (locals.user) { %>
             <li class="nav-item d-flex align-items-center">
-                <a class="btn btn-success" href="<%= link.href %>"
-                    ><%= link.text %></a
+                <a class="btn btn-danger" href="/logout">Log out</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <a class="btn btn-outline-success" href="/profile"
+                    ><%= locals.user.username[0].toUpperCase() %></a
                 >
             </li>
-            <% }} %> <% if (locals.user) { %>
+            <% } else { %>
             <li class="nav-item d-flex align-items-center">
-                <a class="btn btn-success" href="/profile"
-                    ><%= locals.user.username %></a
-                >
+                <a class="btn btn-success" href="/login">Log in</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <a class="btn btn-success" href="/sign-up">Sign up</a>
             </li>
             <% } %>
         </ul>

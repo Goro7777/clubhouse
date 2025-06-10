@@ -6,15 +6,7 @@ const { posts } = require("../storage/storage");
 const db = require("../db/queries");
 
 const allPostsGet = async (req, res) => {
-    let links = req.isAuthenticated()
-        ? [{ href: "/logout", text: "Log out" }]
-        : [
-              { href: "/login", text: "Login" },
-              { href: "/sign-up", text: "Sign-up" },
-          ];
     res.render("pages/index", {
-        title: "Club House",
-        links,
         posts,
     });
 };
@@ -22,9 +14,7 @@ const allPostsGet = async (req, res) => {
 const loginGet = async (req, res) => {
     if (req.isAuthenticated()) {
         res.render("pages/error", {
-            title: "Error",
             message: "You are already logged in.",
-            links: [{ href: "/logout", text: "Log out" }],
         });
         return;
     }
@@ -39,8 +29,6 @@ const loginGet = async (req, res) => {
     }
 
     res.render("pages/login", {
-        title: "Login",
-        links: [{ href: "/sign-up", text: "Sign-up" }],
         errors,
         values,
     });
@@ -55,9 +43,7 @@ const loginPost = passport.authenticate("local", {
 const signupGet = (req, res) => {
     if (req.isAuthenticated()) {
         res.render("pages/error", {
-            title: "Error",
             message: "You already have an account.",
-            links: [{ href: "/logout", text: "Log out" }],
         });
         return;
     }
@@ -65,8 +51,6 @@ const signupGet = (req, res) => {
     let { values, errors } = req.session.redirectData || {};
     // req.session.redirectData = null;
     res.render("pages/sign-up", {
-        title: "Sing-up",
-        links: [{ href: "/login", text: "Login" }],
         values,
         errors,
     });
@@ -75,8 +59,6 @@ const signupGet = (req, res) => {
 const signupPost = [
     validateUserSignup,
     async (req, res) => {
-        // console.log("sign-up post");
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             errorValues = Object.fromEntries(
