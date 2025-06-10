@@ -1,12 +1,12 @@
-<%- include('../partials/header', { title: "New Post" }) %>
+<%- include('../partials/header') %>
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-11 col-lg-9 col-xl-7">
-            <h2 class="fw-bold mb-4 text-uppercase">New Post</h2>
+            <h2 class="fw-bold mb-4 text-uppercase"><%= locals.title %></h2>
 
             <form
                 class="card-body mb-4 border-success p-3"
-                action="/newPost"
+                action="<%= locals.action %>"
                 method="POST"
             >
                 <div class="mb-md-1 mt-md-1 pb-5">
@@ -36,9 +36,10 @@
                             id="text"
                             name="text"
                             class="form-control border-success"
-                            value="<%= locals.values?.text %>"
                             rows="8"
-                        ></textarea>
+                        >
+<%= locals.values?.text %></textarea
+                        >
                         <% if (locals.errors?.text) { %>
                         <div class="text-warning"><%= errors.text %></div>
                         <% } %>
@@ -50,7 +51,7 @@
                         class="btn btn-outline-success btn-lg px-5"
                         type="submit"
                     >
-                        Post
+                        <%= locals.submitText %>
                     </button>
                 </div>
             </form>

@@ -100,8 +100,11 @@ const newPostGet = (req, res) => {
     let { values, errors } = req.session.redirectData || {};
     req.session.redirectData = null;
     res.render("pages/post", {
+        title: "New Post",
+        action: "/newPost",
         values,
         errors,
+        submitText: "Post",
     });
 };
 
@@ -130,7 +133,41 @@ const newPostPost = [
     },
 ];
 
-const editPostGet = (req, res) => {};
+const editPostGet = async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401).render("pages/error", {
+            message: "401 - Unauthorized: You cannot edit posts.",
+        });
+    }
+
+    let { postid } = req.params;
+    let values, errors;
+    if (req.session.redirectData) {
+        values = req.session.redirectData.values;
+        errors = req.session.redirectData.errors;
+    } else {
+        let { postid } = req.params;
+        let post = await db.getPost(postid);
+
+        if (post.userid !== req.user.userid) {
+            return res.status(400).render("pages/error", {
+                message:
+                    "400 - Bad Request: You are not allowed to edit this post.",
+            });
+        } else {
+            values = post;
+        }
+    }
+    req.session.redirectData = null;
+    res.render("pages/post", {
+        title: "Edit Post",
+        action: `/editPost/${postid}`,
+        values,
+        errors,
+        submitText: "Edit",
+    });
+};
+
 const editPostPost = (req, res) => {};
 
 const deletePostGet = async (req, res) => {

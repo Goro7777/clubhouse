@@ -11,6 +11,14 @@ CREATE TABLE IF NOT EXISTS users (
     isAdmin BOOLEAN,
     joinedOn TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS posts (
+    postId INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title TEXT,
+    text TEXT,
+    postedOn TIMESTAMP,
+    userId INTEGER REFERENCES users (userId)
+);
 */
 
 async function addUser(user) {
@@ -70,6 +78,15 @@ async function deletePost(postid) {
     await pool.query(`DELETE FROM posts WHERE postid = ${postid}`);
 }
 
+async function editPost(post) {
+    await pool.query(
+        `UPDATE posts 
+        SET title = $1, text = $2
+        WHERE postid = ${post.postid}`,
+        [post.title, post.text]
+    );
+}
+
 //
 async function getAllMessages() {
     const { rows } = await pool.query(
@@ -113,4 +130,5 @@ module.exports = {
     getAllPosts,
     getPost,
     deletePost,
+    editPost,
 };
