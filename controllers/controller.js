@@ -49,35 +49,16 @@ const loginPost = passport.authenticate("local", {
     failureMessage: true,
 });
 
-const loginPostOld = [
-    // validateUserLogin,
-    (req, res) => {
-        // console.log("login post");
-
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            errorValues = Object.fromEntries(
-                errors.errors.map((error) => [error.path, error.msg])
-            );
-
-            res.render("pages/login", {
-                title: "Login",
-                links: [{ href: "/sign-up", text: "Sign-up" }],
-                values: req.body,
-                errors: errorValues,
-            });
-        } else {
-            res.redirect("/");
-        }
-    },
-];
-
 const signupGet = (req, res) => {
     // console.log("sign-up get");
     // what if the user is already logged in?
+    let { values, errors } = req.session.redirectData || {};
+    // req.session.redirectData = null;
     res.render("pages/sign-up", {
         title: "Sing-up",
         links: [{ href: "/login", text: "Login" }],
+        values,
+        errors,
     });
 };
 
@@ -91,13 +72,11 @@ const signupPost = [
             errorValues = Object.fromEntries(
                 errors.errors.map((error) => [error.path, error.msg])
             );
-
-            res.render("pages/sign-up", {
-                title: "Sing-up",
-                links: [{ href: "/login", text: "Login" }],
+            req.session.redirectData = {
                 values: req.body,
                 errors: errorValues,
-            });
+            };
+            res.redirect("/sign-up");
         } else {
             let user = { ...req.body };
             let hashedPassword = await bcrypt.hash(user.password, 10);
@@ -105,8 +84,7 @@ const signupPost = [
             user.isMember = false;
             user.isAdmin = false;
             user.joinedOn = new Date();
-            delete user.confirmPassword;
-            db.addUser(user);
+            await db.addUser(user);
             res.redirect("/");
         }
     },
