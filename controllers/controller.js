@@ -5,32 +5,35 @@ const passport = require("passport");
 const { posts } = require("../storage/storage");
 const db = require("../db/queries");
 
-const getAllMessages = async (req, res) => {
-    let users = await db.getAllUsers();
-    console.log(users);
+const allPostsGet = async (req, res) => {
+    let links = req.isAuthenticated()
+        ? [{ href: "/logout", text: "Log out" }]
+        : [
+              { href: "/login", text: "Login" },
+              { href: "/sign-up", text: "Sign-up" },
+          ];
     res.render("pages/index", {
         title: "Club House",
-        links: [
-            { href: "/login", text: "Login" },
-            { href: "/sign-up", text: "Sign-up" },
-        ],
-        user: req.user,
+        links,
         posts,
     });
 };
 
 const loginGet = async (req, res) => {
     if (req.isAuthenticated()) {
-        res.send("<h1>You are already logged in</h1>");
+        res.render("pages/error", {
+            title: "Error",
+            message: "You are already logged in.",
+            links: [{ href: "/logout", text: "Log out" }],
+        });
         return;
     }
-    console.log("error messages:");
-    let errors = {};
-    let values;
+
+    let errors, values;
     if (req.session.messages?.length) {
         let errorMessage = req.session.messages.pop();
         let [field, message, username, password] = errorMessage.split(":");
-        errors[field] = message;
+        errors = { [field]: message };
         values = { username, password };
         req.session.messages.length = 0;
     }
@@ -50,8 +53,15 @@ const loginPost = passport.authenticate("local", {
 });
 
 const signupGet = (req, res) => {
-    // console.log("sign-up get");
-    // what if the user is already logged in?
+    if (req.isAuthenticated()) {
+        res.render("pages/error", {
+            title: "Error",
+            message: "You already have an account.",
+            links: [{ href: "/logout", text: "Log out" }],
+        });
+        return;
+    }
+
     let { values, errors } = req.session.redirectData || {};
     // req.session.redirectData = null;
     res.render("pages/sign-up", {
@@ -100,7 +110,7 @@ const logoutGet = (req, res, next) => {
 };
 
 module.exports = {
-    getAllMessages,
+    allPostsGet,
     loginGet,
     loginPost,
     signupGet,

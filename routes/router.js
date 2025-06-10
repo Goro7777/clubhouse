@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/controller");
 
-router.get("/", controller.getAllMessages);
+router.get("/", controller.allPostsGet);
 
 router.get("/login", controller.loginGet);
 router.post("/login", controller.loginPost);

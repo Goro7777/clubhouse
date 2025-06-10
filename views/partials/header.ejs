@@ -22,7 +22,13 @@
                     ><%= link.text %></a
                 >
             </li>
-            <% }} %>
+            <% }} %> <% if (locals.user) { %>
+            <li class="nav-item d-flex align-items-center">
+                <a class="btn btn-success" href="/profile"
+                    ><%= locals.user.username %></a
+                >
+            </li>
+            <% } %>
         </ul>
     </body>
 </html>
