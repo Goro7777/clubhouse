@@ -6,7 +6,7 @@ const db = require("../db/queries");
 passport.use(
     new LocalStrategy(async (username, password, done) => {
         try {
-            let user = await db.getByField("username", username);
+            let user = await db.getUserByField("username", username);
 
             if (!user) {
                 // no error, don't let in
@@ -36,7 +36,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await db.getByField("id", id);
+        const user = await db.getUserByField("id", id);
         done(null, user);
     } catch (err) {
         done(err);

@@ -17,10 +17,10 @@
 
                 <% if (locals.user) { %>
                 <p class="card-text">
-                    <strong><em><%= post.fullname %></em></strong>
+                    <strong><em><%= post.username %></em></strong>
                     <br />
                     <small class="text-body-secondary"
-                        ><%= post.time.toGMTString() %>
+                        ><%= new Date(post.postedon).toGMTString() %>
                     </small>
                 </p>
                 <% } %>

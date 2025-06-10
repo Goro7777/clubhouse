@@ -2,16 +2,15 @@ const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const { validateSignup, validatePost } = require("../validation/validation");
 const passport = require("passport");
-const { posts } = require("../storage/storage");
 const db = require("../db/queries");
 
 const allPostsGet = async (req, res) => {
+    let posts = await db.getAllPosts();
+    // console.log(posts);
     res.render("pages/index", {
         posts,
     });
 };
-
-// required attributes on sign-up and login. Double validation doesn't seem to always work
 
 const loginGet = async (req, res) => {
     if (req.isAuthenticated()) {
@@ -77,7 +76,7 @@ const signupPost = [
             user.isAdmin = false;
             user.joinedOn = new Date();
             await db.addUser(user);
-            res.redirect("/");
+            res.redirect("/login");
         }
     },
 ];
@@ -121,6 +120,12 @@ const newPostPost = [
             res.redirect("/newPost");
         } else {
             console.log("Adding new post to db...");
+            let post = {
+                ...req.body,
+                userId: req.user.id,
+                postedOn: new Date(),
+            };
+            await db.addPost(post);
             res.redirect("/");
         }
     },

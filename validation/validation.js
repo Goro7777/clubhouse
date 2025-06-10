@@ -5,7 +5,7 @@ const validateSignup = [
     body("username")
         .trim()
         .custom(async (value) => {
-            let usernameTaken = await db.getByField("username", value);
+            let usernameTaken = await db.getUserByField("username", value);
             if (usernameTaken) throw new Error("Username already in use");
 
             return true;
@@ -25,7 +25,7 @@ const validateSignup = [
         .isEmail()
         .withMessage("Not a valid e-mail address")
         .custom(async (value) => {
-            let emailTaken = await db.getByField("email", value);
+            let emailTaken = await db.getUserByField("email", value);
             if (emailTaken) throw new Error("E-mail already in use");
 
             return true;

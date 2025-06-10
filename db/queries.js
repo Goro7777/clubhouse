@@ -37,11 +37,26 @@ async function getAllUsers() {
     return rows;
 }
 
-async function getByField(fieldName, fieldValue) {
+async function getUserByField(fieldName, fieldValue) {
     const { rows } = await pool.query(
         `SELECT * FROM users WHERE ${fieldName} = '${fieldValue}'`
     );
     return rows[0];
+}
+
+async function addPost(post) {
+    await pool.query(
+        `INSERT INTO posts (title, text, postedOn, userId) 
+                    VALUES ($1, $2, to_timestamp($3), $4)`,
+        [post.title, post.text, post.postedOn / 1000, post.userId]
+    );
+}
+
+async function getAllPosts() {
+    const { rows } = await pool.query(
+        "SELECT * FROM posts JOIN users ON posts.userId = users.id ORDER BY postedOn DESC"
+    );
+    return rows;
 }
 
 //
@@ -82,5 +97,7 @@ async function editMessage(message) {
 module.exports = {
     addUser,
     getAllUsers,
-    getByField,
+    getUserByField,
+    addPost,
+    getAllPosts,
 };
