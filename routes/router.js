@@ -13,5 +13,6 @@ router.get("/sign-up", controller.signupGet);
 router.post("/sign-up", ...controller.signupPost);
 
 router.get("/newPost", controller.newPostGet);
+router.post("/newPost", ...controller.newPostPost);
 
 module.exports = router;

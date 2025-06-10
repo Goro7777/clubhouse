@@ -34,6 +34,20 @@ const validateUserSignup = [
         }),
 ];
 
+const validateNewPost = [
+    body("title")
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("Post title cannot be empty."),
+    body("text")
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("Post text cannot be empty."),
+];
+
 module.exports = {
     validateUserSignup,
+    validateNewPost,
 };

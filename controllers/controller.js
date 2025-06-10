@@ -1,6 +1,9 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-const { validateUserSignup } = require("../validation/validation");
+const {
+    validateUserSignup,
+    validateNewPost,
+} = require("../validation/validation");
 const passport = require("passport");
 const { posts } = require("../storage/storage");
 const db = require("../db/queries");
@@ -47,7 +50,7 @@ const signupGet = (req, res) => {
     }
 
     let { values, errors } = req.session.redirectData || {};
-    // req.session.redirectData = null;
+    req.session.redirectData = null;
     res.render("pages/sign-up", {
         values,
         errors,
@@ -96,8 +99,33 @@ const newPostGet = (req, res) => {
                 "401 - Unauthorized: You need to log in to be able to post.",
         });
     }
-    res.render("pages/post");
+    let { values, errors } = req.session.redirectData || {};
+    req.session.redirectData = null;
+    res.render("pages/post", {
+        values,
+        errors,
+    });
 };
+
+const newPostPost = [
+    validateNewPost,
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            errorValues = Object.fromEntries(
+                errors.errors.map((error) => [error.path, error.msg])
+            );
+            req.session.redirectData = {
+                values: req.body,
+                errors: errorValues,
+            };
+            res.redirect("/newPost");
+        } else {
+            console.log("Adding new post to db...");
+            res.redirect("/");
+        }
+    },
+];
 
 module.exports = {
     allPostsGet,
@@ -107,4 +135,5 @@ module.exports = {
     signupPost,
     logoutGet,
     newPostGet,
+    newPostPost,
 };

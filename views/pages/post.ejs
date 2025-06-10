@@ -20,8 +20,11 @@
                             id="title"
                             name="title"
                             class="form-control form-control-lg border-success"
-                            required
+                            value="<%= locals.values?.title %>"
                         />
+                        <% if (locals.errors?.title) { %>
+                        <div class="text-warning"><%= errors.title %></div>
+                        <% } %>
                     </div>
 
                     <div
@@ -33,9 +36,12 @@
                             id="text"
                             name="text"
                             class="form-control border-success"
+                            value="<%= locals.values?.text %>"
                             rows="8"
-                            required
                         ></textarea>
+                        <% if (locals.errors?.text) { %>
+                        <div class="text-warning"><%= errors.text %></div>
+                        <% } %>
                     </div>
 
                     <button
