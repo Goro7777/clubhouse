@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 const db = require("../db/queries");
 
-const validateUserSignup = [
+const validateSignup = [
     body("username")
         .trim()
         .custom(async (value) => {
@@ -10,6 +10,16 @@ const validateUserSignup = [
 
             return true;
         }),
+    body("firstname")
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("First name cannot be empty."),
+    body("lastname")
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("Last name cannot be empty."),
     body("email")
         .trim()
         .isEmail()
@@ -20,7 +30,6 @@ const validateUserSignup = [
 
             return true;
         }),
-
     body("password")
         .trim()
         .isLength({ min: 6 })
@@ -34,7 +43,7 @@ const validateUserSignup = [
         }),
 ];
 
-const validateNewPost = [
+const validatePost = [
     body("title")
         .trim()
         .not()
@@ -48,6 +57,6 @@ const validateNewPost = [
 ];
 
 module.exports = {
-    validateUserSignup,
-    validateNewPost,
+    validateSignup,
+    validatePost,
 };
