@@ -81,9 +81,9 @@ async function deletePost(postid) {
 async function editPost(post) {
     await pool.query(
         `UPDATE posts 
-        SET title = $1, text = $2
+        SET title = $1, text = $2, postedOn = to_timestamp($3)
         WHERE postid = ${post.postid}`,
-        [post.title, post.text]
+        [post.title, post.text, post.postedOn / 1000]
     );
 }
 

@@ -159,6 +159,7 @@ const editPostGet = async (req, res) => {
         }
     }
     req.session.redirectData = null;
+
     res.render("pages/post", {
         title: "Edit Post",
         action: `/editPost/${postid}`,
@@ -168,7 +169,31 @@ const editPostGet = async (req, res) => {
     });
 };
 
-const editPostPost = (req, res) => {};
+const editPostPost = [
+    validatePost,
+    async (req, res) => {
+        const errors = validationResult(req);
+        let { postid } = req.params;
+        if (!errors.isEmpty()) {
+            errorValues = Object.fromEntries(
+                errors.errors.map((error) => [error.path, error.msg])
+            );
+            req.session.redirectData = {
+                values: req.body,
+                errors: errorValues,
+            };
+            res.redirect(`/editPost/${postid}`);
+        } else {
+            let post = {
+                ...req.body,
+                postid,
+                postedOn: new Date(),
+            };
+            await db.editPost(post);
+            res.redirect("/");
+        }
+    },
+];
 
 const deletePostGet = async (req, res) => {
     if (!req.isAuthenticated()) {

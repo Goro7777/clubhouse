@@ -16,7 +16,7 @@ router.get("/newPost", controller.newPostGet);
 router.post("/newPost", ...controller.newPostPost);
 
 router.get("/editPost/:postid", controller.editPostGet);
-router.post("/editPost", controller.editPostPost);
+router.post("/editPost/:postid", ...controller.editPostPost);
 
 router.get("/deletePost/:postid", controller.deletePostGet);
 
