@@ -24,6 +24,15 @@
                     </small>
                 </p>
                 <% } %>
+                <!-- edit if: locals.user?.userid = post.userid-->
+                <% if (locals.user?.userid === post.userid) { %>
+                <a class="link-primary pe-4" href="/edit/<%= post.postid %>"
+                    >Edit</a
+                >
+                <a class="link-danger pe-4" href="/delete/<%= post.postid %>"
+                    >Delete</a
+                >
+                <% } %>
             </div>
             <% } %>
             <!-- </div> -->

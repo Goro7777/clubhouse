@@ -131,6 +131,11 @@ const newPostPost = [
     },
 ];
 
+const deletePostGet = (req, res) => {};
+
+const editPostGet = (req, res) => {};
+const editPostPost = (req, res) => {};
+
 module.exports = {
     allPostsGet,
     loginGet,
@@ -140,4 +145,7 @@ module.exports = {
     logoutGet,
     newPostGet,
     newPostPost,
+    editPostGet,
+    editPostPost,
+    deletePostGet,
 };
