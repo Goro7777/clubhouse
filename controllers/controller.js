@@ -13,10 +13,9 @@ const allPostsGet = async (req, res) => {
 
 const loginGet = async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("pages/error", {
-            message: "You are already logged in.",
+        return res.status(400).render("pages/error", {
+            message: "400 - Bad Request: You are already logged in.",
         });
-        return;
     }
 
     let errors, values;
@@ -42,10 +41,9 @@ const loginPost = passport.authenticate("local", {
 
 const signupGet = (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("pages/error", {
-            message: "You already have an account.",
+        return res.status(400).render("pages/error", {
+            message: "400 - Bad Request: You already have an account.",
         });
-        return;
     }
 
     let { values, errors } = req.session.redirectData || {};
@@ -91,6 +89,16 @@ const logoutGet = (req, res, next) => {
     });
 };
 
+const newPostGet = (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401).render("pages/error", {
+            message:
+                "401 - Unauthorized: You need to log in to be able to post.",
+        });
+    }
+    res.render("pages/post");
+};
+
 module.exports = {
     allPostsGet,
     loginGet,
@@ -98,4 +106,5 @@ module.exports = {
     signupGet,
     signupPost,
     logoutGet,
+    newPostGet,
 };
