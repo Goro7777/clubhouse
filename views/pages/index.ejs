@@ -3,28 +3,27 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-11 col-lg-9 col-xl-7">
             <!-- <div class="card bg-success text-white" style="border-radius: 1rem"> -->
-            <% if (locals.user) {%>
-            <h1>WELCOME BACK <%= user.username %></h1>
-            <a href="/logout">LOG OUT</a>
-            <% } %> <% for (let post of posts) { %>
-
+            <form class="card-body mb-4 border-success p-3" action="/newPost">
+                <button class="btn btn-primary btn-lg" <% if (!locals.user) { %>
+                    disabled <% } %>> + New Post
+                </button>
+            </form>
+            <% for (let post of posts) { %>
             <div
                 class="card-body mb-4 border border-2 border-success rounded-4 p-3"
             >
                 <h5 class="card-title mb-1"><%= post.title %></h5>
                 <p class="card-text"><%= post.text %></p>
 
+                <% if (locals.user) { %>
                 <p class="card-text">
-                    <span class="text-warning">By:</span>
-                    <strong
-                        ><em><%= post.isMember && post.fullname %></em></strong
-                    >
+                    <strong><em><%= post.fullname %></em></strong>
                     <br />
-                    <span class="text-warning">Last edited:</span>
                     <small class="text-body-secondary"
-                        ><%= post.isMember && post.time.toGMTString() %>
+                        ><%= post.time.toGMTString() %>
                     </small>
                 </p>
+                <% } %>
             </div>
             <% } %>
             <!-- </div> -->
