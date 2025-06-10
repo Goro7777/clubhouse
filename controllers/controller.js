@@ -6,7 +6,7 @@ const db = require("../db/queries");
 
 const allPostsGet = async (req, res) => {
     let posts = await db.getAllPosts();
-    console.log(posts[0]);
+    console.log("Posts count: " + posts.length);
     res.render("pages/index", {
         posts,
     });
@@ -119,7 +119,6 @@ const newPostPost = [
             };
             res.redirect("/newPost");
         } else {
-            console.log("Adding new post to db...");
             let post = {
                 ...req.body,
                 userId: req.user.userid,
@@ -131,10 +130,29 @@ const newPostPost = [
     },
 ];
 
-const deletePostGet = (req, res) => {};
-
 const editPostGet = (req, res) => {};
 const editPostPost = (req, res) => {};
+
+const deletePostGet = async (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.render("pages/error", {
+            message: "400 - Bad Request: You are not allowed to delete a post.",
+        });
+        return;
+    }
+
+    let { postid } = req.params;
+    let post = await db.getPost(postid);
+
+    if (!req.user.isAdmin && post?.userid !== req.user.userid)
+        return res.status(400).render("pages/error", {
+            message:
+                "400 - Bad Request: You are not allowed to delete this post.",
+        });
+
+    await db.deletePost(postid);
+    res.redirect("/");
+};
 
 module.exports = {
     allPostsGet,

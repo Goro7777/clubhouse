@@ -59,15 +59,15 @@ async function getAllPosts() {
     return rows;
 }
 
-async function getPostById(postid) {
+async function getPost(postid) {
     const { rows } = await pool.query(
-        `SELECT * FROM posts WHERE postid = ${postId}`
+        `SELECT * FROM posts WHERE postid = ${postid}`
     );
     return rows[0];
 }
 
-async function deletePost(postId) {
-    await pool.query(`DELETE FROM posts WHERE postid = ${postId}`);
+async function deletePost(postid) {
+    await pool.query(`DELETE FROM posts WHERE postid = ${postid}`);
 }
 
 //
@@ -111,6 +111,6 @@ module.exports = {
     getUserByField,
     addPost,
     getAllPosts,
-    getPostById,
+    getPost,
     deletePost,
 };
