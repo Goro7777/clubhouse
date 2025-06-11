@@ -1,43 +1,35 @@
 <%- include('../partials/header', { title: "Club House" }) %>
-<div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-11 col-lg-9 col-xl-7">
-            <!-- <div class="card bg-success text-white" style="border-radius: 1rem"> -->
-            <form class="card-body mb-4 border-success p-3" action="/newPost">
-                <button class="btn btn-primary btn-lg" <% if (!locals.user) { %>
-                    disabled <% } %>> + New Post
-                </button>
-            </form>
-            <% for (let post of posts) { %>
-            <div
-                class="card-body mb-4 border border-2 border-success rounded-4 p-3"
-            >
-                <h5 class="card-title mb-1"><%= post.title %></h5>
-                <p class="card-text"><%= post.text %></p>
+<div class="col-12 col-md-11 col-lg-9 col-xl-7">
+    <h2 class="fw-bold mb-4 text-uppercase">All Posts</h2>
 
-                <% if (locals.user) { %>
-                <p class="card-text">
-                    <strong><em><%= post.username %></em></strong>
-                    <br />
-                    <small class="text-body-secondary"
-                        ><%= new Date(post.postedon).toGMTString() %>
-                    </small>
-                </p>
-                <% } %>
-                <!-- edit if: locals.user?.userid = post.userid-->
-                <% if (locals.user?.userid === post.userid) { %>
-                <a class="link-primary pe-4" href="/editPost/<%= post.postid %>"
-                    >Edit</a
-                >
-                <a
-                    class="link-danger pe-4"
-                    href="/deletePost/<%= post.postid %>"
-                    >Delete</a
-                >
-                <% } %>
-            </div>
-            <% } %>
-            <!-- </div> -->
-        </div>
+    <form class="card-body mb-4 border-success p-3" action="/newPost">
+        <button class="btn btn-primary btn-lg" <% if (!locals.user) { %>
+            disabled <% } %>> + New Post
+        </button>
+    </form>
+    <% for (let post of posts) { %>
+    <div class="card-body mb-4 border border-2 border-success rounded-4 p-3">
+        <h5 class="card-title mb-1"><%= post.title %></h5>
+        <p class="card-text"><%= post.text %></p>
+
+        <% if (locals.user) { %>
+        <p class="card-text">
+            <strong><em><%= post.username %></em></strong>
+            <br />
+            <small class="text-body-secondary"
+                ><%= new Date(post.postedon).toGMTString() %>
+            </small>
+        </p>
+        <% } %>
+        <!-- edit if: locals.user?.userid = post.userid-->
+        <% if (locals.user?.userid === post.userid) { %>
+        <a class="link-primary pe-4" href="/editPost/<%= post.postid %>"
+            >Edit</a
+        >
+        <a class="link-danger pe-4" href="/deletePost/<%= post.postid %>"
+            >Delete</a
+        >
+        <% } %>
     </div>
+    <% } %>
 </div>

@@ -1,60 +1,50 @@
 <%- include('../partials/header') %>
-<div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-11 col-lg-9 col-xl-7">
-            <h2 class="fw-bold mb-4 text-uppercase"><%= locals.title %></h2>
+<div class="col-12 col-md-11 col-lg-9 col-xl-7">
+    <h2 class="fw-bold mb-4 text-uppercase"><%= locals.title %></h2>
 
-            <form
-                class="card-body mb-4 border-success p-3"
-                action="<%= locals.action %>"
-                method="POST"
-            >
-                <div class="mb-md-1 mt-md-1 pb-5">
-                    <div
-                        data-mdb-input-init
-                        class="form-outline form-white mb-4"
-                    >
-                        <label class="form-label fs-5" for="title">Title</label>
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            class="form-control form-control-lg border-success"
-                            value="<%= locals.values?.title %>"
-                        />
-                        <% if (locals.errors?.title) { %>
-                        <div class="text-warning"><%= errors.title %></div>
-                        <% } %>
-                    </div>
+    <form
+        class="card-body mb-4 border-success p-3"
+        action="<%= locals.action %>"
+        method="POST"
+    >
+        <div class="mb-md-1 mt-md-1 pb-5">
+            <div data-mdb-input-init class="form-outline form-white mb-4">
+                <label class="form-label fs-5" for="title">Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="form-control form-control-lg border-success"
+                    value="<%= locals.values?.title %>"
+                />
+                <% if (locals.errors?.title) { %>
+                <div class="text-warning"><%= errors.title %></div>
+                <% } %>
+            </div>
 
-                    <div
-                        data-mdb-input-init
-                        class="form-outline form-white mb-4"
-                    >
-                        <label class="form-label fs-5" for="text">Text</label>
-                        <textarea
-                            id="text"
-                            name="text"
-                            class="form-control border-success"
-                            rows="8"
-                        >
+            <div data-mdb-input-init class="form-outline form-white mb-4">
+                <label class="form-label fs-5" for="text">Text</label>
+                <textarea
+                    id="text"
+                    name="text"
+                    class="form-control border-success"
+                    rows="8"
+                >
 <%= locals.values?.text %></textarea
-                        >
-                        <% if (locals.errors?.text) { %>
-                        <div class="text-warning"><%= errors.text %></div>
-                        <% } %>
-                    </div>
+                >
+                <% if (locals.errors?.text) { %>
+                <div class="text-warning"><%= errors.text %></div>
+                <% } %>
+            </div>
 
-                    <button
-                        data-mdb-button-init
-                        data-mdb-ripple-init
-                        class="btn btn-outline-success btn-lg px-5"
-                        type="submit"
-                    >
-                        <%= locals.submitText %>
-                    </button>
-                </div>
-            </form>
+            <button
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-outline-success btn-lg px-5"
+                type="submit"
+            >
+                <%= locals.submitText %>
+            </button>
         </div>
-    </div>
+    </form>
 </div>
