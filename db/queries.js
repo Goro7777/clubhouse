@@ -52,6 +52,16 @@ async function getUserByField(fieldName, fieldValue) {
     return rows[0];
 }
 
+async function getUserProfileInfo(userid) {
+    const { rows } = await pool.query(
+        `SELECT users.*, COUNT(posts.postid) AS postsCount 
+        FROM users JOIN posts ON users.userid = posts.userid
+        WHERE users.userid = ${userid}
+        GROUP BY users.userid`
+    );
+    return rows[0];
+}
+
 async function addPost(post) {
     await pool.query(
         `INSERT INTO posts (title, text, postedOn, userId) 
@@ -126,6 +136,8 @@ module.exports = {
     addUser,
     getAllUsers,
     getUserByField,
+    getUserProfileInfo,
+
     addPost,
     getAllPosts,
     getPost,

@@ -8,13 +8,24 @@
         </button>
     </form>
     <% for (let post of posts) { %>
-    <div class="card-body mb-4 border border-2 border-success rounded-4 p-3">
+    <div
+        class="card-body mb-4 border border-2 border-success rounded-4 p-3 ms-3"
+    >
         <h5 class="card-title mb-1"><%= post.title %></h5>
         <p class="card-text"><%= post.text %></p>
 
         <% if (locals.user) { %>
         <p class="card-text">
-            <strong><em><%= post.username %></em></strong>
+            <% if (user.ismember) { %>
+            <a
+                class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"
+                href="/profile/<%= post.userid %>"
+            >
+                <% } %>
+                <strong><em><%= post.username %></em></strong>
+                <% if (user.ismember) { %>
+            </a>
+            <% } %>
             <br />
             <small class="text-body-secondary"
                 ><%= new Date(post.postedon).toGMTString() %>

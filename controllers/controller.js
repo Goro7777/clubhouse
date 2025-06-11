@@ -6,7 +6,6 @@ const db = require("../db/queries");
 
 const allPostsGet = async (req, res) => {
     let posts = await db.getAllPosts();
-    console.log("Posts count: " + posts.length);
     res.render("pages/index", {
         posts,
     });
@@ -217,19 +216,18 @@ const deletePostGet = async (req, res) => {
 };
 
 const profileGet = async (req, res) => {
+    // add isAuthenticated check here
+
     let { userid } = req.params;
-    let user;
-    if (userid === req.user.userid) {
-        user = { ...req.user };
-    } else {
-        user = await db.getUserByField("userid", userid);
-    }
-    user.status = user.isadmin
+
+    let userProfileInfo = await db.getUserProfileInfo(userid);
+    userProfileInfo.status = userProfileInfo.isadmin
         ? "Admin"
-        : user.ismember
+        : userProfileInfo.ismember
         ? "Club member"
         : "User";
-    res.render("pages/profile", { user });
+
+    res.render("pages/profile", { userProfileInfo });
 };
 
 module.exports = {
