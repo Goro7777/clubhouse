@@ -224,10 +224,14 @@ const profileGet = async (req, res) => {
     userProfileInfo.status = userProfileInfo.isadmin
         ? "Admin"
         : userProfileInfo.ismember
-        ? "Club member"
+        ? "Member"
         : "User";
 
     res.render("pages/profile", { userProfileInfo });
+};
+
+const rulesGet = async (req, res) => {
+    res.render("pages/rules");
 };
 
 module.exports = {
@@ -243,4 +247,5 @@ module.exports = {
     editPostPost,
     deletePostGet,
     profileGet,
+    rulesGet,
 };

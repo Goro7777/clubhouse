@@ -22,4 +22,6 @@ router.get("/deletePost/:postid", controller.deletePostGet);
 
 router.get("/profile/:userid", controller.profileGet);
 
+router.get("/rules", controller.rulesGet);
+
 module.exports = router;
