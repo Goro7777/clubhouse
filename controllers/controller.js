@@ -216,6 +216,22 @@ const deletePostGet = async (req, res) => {
     res.redirect("/");
 };
 
+const profileGet = async (req, res) => {
+    let { userid } = req.params;
+    let user;
+    if (userid === req.user.userid) {
+        user = { ...req.user };
+    } else {
+        user = await db.getUserByField("userid", userid);
+    }
+    user.status = user.isadmin
+        ? "Admin"
+        : user.ismember
+        ? "Club member"
+        : "User";
+    res.render("pages/profile", { user });
+};
+
 module.exports = {
     allPostsGet,
     loginGet,
@@ -228,4 +244,5 @@ module.exports = {
     editPostGet,
     editPostPost,
     deletePostGet,
+    profileGet,
 };

@@ -20,4 +20,6 @@ router.post("/editPost/:postid", ...controller.editPostPost);
 
 router.get("/deletePost/:postid", controller.deletePostGet);
 
+router.get("/profile/:userid", controller.profileGet);
+
 module.exports = router;
