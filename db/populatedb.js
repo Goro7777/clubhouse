@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS users (
     password TEXT,
     isMember BOOLEAN,
     isAdmin BOOLEAN,
-    joinedOn TIMESTAMP
+    joinedOn TIMESTAMP,
+    adminRequest BOOLEAN,
 );
 
 CREATE TABLE IF NOT EXISTS posts (

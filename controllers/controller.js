@@ -71,8 +71,6 @@ const signupPost = [
             let user = { ...req.body };
             let hashedPassword = await bcrypt.hash(user.password, 10);
             user.hashedPassword = hashedPassword;
-            user.isMember = false;
-            user.isAdmin = false;
             user.joinedOn = new Date();
             await db.addUser(user);
             res.redirect("/login");

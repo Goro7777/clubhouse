@@ -7,9 +7,10 @@ CREATE TABLE IF NOT EXISTS users (
     lastname TEXT,
     email TEXT,
     password TEXT,
-    isMember BOOLEAN,
-    isAdmin BOOLEAN,
-    joinedOn TIMESTAMP
+    isMember BOOLEAN DEFAULT FALSE,
+    isAdmin BOOLEAN DEFAULT FALSE,
+    joinedOn TIMESTAMP,
+    adminRequest BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS posts (
@@ -23,16 +24,14 @@ CREATE TABLE IF NOT EXISTS posts (
 
 async function addUser(user) {
     await pool.query(
-        `INSERT INTO users (username, firstname, lastname, email, password, isMember, isAdmin, joinedOn) 
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, to_timestamp($8))`,
+        `INSERT INTO users (username, firstname, lastname, email, password, joinedOn) 
+                    VALUES ($1, $2, $3, $4, $5, to_timestamp($6))`,
         [
             user.username,
             user.firstname,
             user.lastname,
             user.email,
             user.hashedPassword,
-            user.isMember,
-            user.isAdmin,
             user.joinedOn / 1000,
         ]
     );
