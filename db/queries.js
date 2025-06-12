@@ -1,26 +1,4 @@
 const pool = require("./pool");
-/*
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    username TEXT,
-    firstname TEXT,
-    lastname TEXT,
-    email TEXT,
-    password TEXT,
-    isMember BOOLEAN DEFAULT FALSE,
-    isAdmin BOOLEAN DEFAULT FALSE,
-    joinedOn TIMESTAMP,
-    adminRequest BOOLEAN DEFAULT FALSE
-);
-
-CREATE TABLE IF NOT EXISTS posts (
-    postId INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    title TEXT,
-    text TEXT,
-    postedOn TIMESTAMP,
-    userId INTEGER REFERENCES users (userId)
-);
-*/
 
 async function addUser(user) {
     await pool.query(
