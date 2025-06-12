@@ -55,11 +55,19 @@ async function getUserByField(fieldName, fieldValue) {
 async function getUserProfileInfo(userid) {
     const { rows } = await pool.query(
         `SELECT users.*, COUNT(posts.postid) AS postsCount 
-        FROM users JOIN posts ON users.userid = posts.userid
+        FROM users LEFT JOIN posts ON users.userid = posts.userid
         WHERE users.userid = ${userid}
         GROUP BY users.userid`
     );
     return rows[0];
+}
+
+async function makeUserMember(userid) {
+    await pool.query(
+        `UPDATE users
+        SET ismember = TRUE
+        WHERE userid = ${userid}`
+    );
 }
 
 async function addPost(post) {
@@ -137,6 +145,7 @@ module.exports = {
     getAllUsers,
     getUserByField,
     getUserProfileInfo,
+    makeUserMember,
 
     addPost,
     getAllPosts,

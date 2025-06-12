@@ -219,7 +219,6 @@ const profileGet = async (req, res) => {
     // add isAuthenticated check here
 
     let { userid } = req.params;
-
     let info = await db.getUserProfileInfo(userid);
     info.status = info.isadmin ? "Admin" : info.ismember ? "Member" : "User";
 
@@ -232,7 +231,23 @@ const rulesGet = async (req, res) => {
 
 const upgradeGet = async (req, res) => {
     // add isAuthenticated check here
-    res.render("pages/upgrade");
+
+    let { passcodeError } = req.session;
+    res.render("pages/upgrade", { passcodeError });
+    req.session.passcodeError = null;
+};
+
+const upgradePost = async (req, res) => {
+    if (!req.user.ismember) {
+        if (req.body.passcode === process.env.MEMBERSHIP_PASSCODE) {
+            await db.makeUserMember(req.user.userid);
+            res.redirect(`/profile/${req.user.userid}`);
+        } else {
+            req.session.passcodeError = true;
+            res.redirect("/upgrade");
+        }
+    } else {
+    }
 };
 
 module.exports = {
@@ -250,4 +265,5 @@ module.exports = {
     profileGet,
     rulesGet,
     upgradeGet,
+    upgradePost,
 };

@@ -14,24 +14,21 @@
         </li>
     </ul>
 
-    <form
-        class="card-body my-5 ms-3"
-        action="<%= locals.action %>"
-        method="POST"
-    >
+    <form class="card-body my-5 ms-3" action="/upgrade" method="POST">
         <div class="mb-md-1 mt-md-1 pb-5 pt-2">
             <div data-mdb-input-init class="form-outline form-white mb-4">
                 <% if (!user.ismember) { %>
-                <label class="form-label ms-3" for="title"
+                <label class="form-label ms-3" for="passcode"
                     >To become a <strong class="text-warning">member</strong>,
-                    enter the secret <strong>passcode</strong>. (It's
-                    "111")</label
+                    enter the secret <strong>passcode</strong>. (It's "<%=
+                    process.env.MEMBERSHIP_PASSCODE %>")</label
                 >
                 <input
                     type="password"
                     id="passcode"
                     name="passcode"
                     class="form-control border-success"
+                    required
                 /><% } else { %>
                 <p class="ms-3">
                     To become an <strong class="text-danger">admin</strong>,
