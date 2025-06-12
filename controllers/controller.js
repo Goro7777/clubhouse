@@ -39,6 +39,15 @@ const loginPost = passport.authenticate("local", {
     failureMessage: true,
 });
 
+const logoutGet = (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
+};
+
 const signupGet = (req, res) => {
     if (req.isAuthenticated()) {
         return res.status(400).render("pages/error", {
@@ -77,15 +86,6 @@ const signupPost = [
         }
     },
 ];
-
-const logoutGet = (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-        res.redirect("/");
-    });
-};
 
 const newPostGet = (req, res) => {
     if (!req.isAuthenticated()) {
