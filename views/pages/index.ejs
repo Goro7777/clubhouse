@@ -31,9 +31,7 @@
                 ><%= new Date(post.postedon).toGMTString() %>
             </small>
         </p>
-        <% } %>
-        <!-- edit if: locals.user?.userid = post.userid-->
-        <% if (locals.user?.userid === post.userid) { %>
+        <% } %> <% if (locals.user?.userid === post.userid) { %>
         <a class="link-primary pe-4" href="/editPost/<%= post.postid %>"
             >Edit</a
         >

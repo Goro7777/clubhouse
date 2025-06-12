@@ -24,4 +24,6 @@ router.get("/profile/:userid", controller.profileGet);
 
 router.get("/rules", controller.rulesGet);
 
+router.get("/upgrade", controller.upgradeGet);
+
 module.exports = router;

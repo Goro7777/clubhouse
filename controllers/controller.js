@@ -220,18 +220,19 @@ const profileGet = async (req, res) => {
 
     let { userid } = req.params;
 
-    let userProfileInfo = await db.getUserProfileInfo(userid);
-    userProfileInfo.status = userProfileInfo.isadmin
-        ? "Admin"
-        : userProfileInfo.ismember
-        ? "Member"
-        : "User";
+    let info = await db.getUserProfileInfo(userid);
+    info.status = info.isadmin ? "Admin" : info.ismember ? "Member" : "User";
 
-    res.render("pages/profile", { userProfileInfo });
+    res.render("pages/profile", { info });
 };
 
 const rulesGet = async (req, res) => {
     res.render("pages/rules");
+};
+
+const upgradeGet = async (req, res) => {
+    // add isAuthenticated check here
+    res.render("pages/upgrade");
 };
 
 module.exports = {
@@ -248,4 +249,5 @@ module.exports = {
     deletePostGet,
     profileGet,
     rulesGet,
+    upgradeGet,
 };

@@ -1,7 +1,7 @@
 <%- include('../partials/header', { title: "Profile" }) %>
 <div class="col-12 col-md-11 col-lg-9 col-xl-7">
     <h2 class="fw-bold mb-5 text-uppercase">
-        <%= (userProfileInfo.userid === user.userid ? "MY " : "") %>Profile
+        <%= (info.userid === user.userid ? "MY " : "") %>Profile
     </h2>
 
     <div class="card card-body mb-4 border-success ms-3">
@@ -11,7 +11,7 @@
             </div>
             <div class="col-sm-9">
                 <p class="mb-0">
-                    <strong><%= userProfileInfo.username %></strong>
+                    <strong><%= info.username %></strong>
                 </p>
             </div>
         </div>
@@ -21,10 +21,7 @@
                 <p class="text-muted mb-0">Full Name</p>
             </div>
             <div class="col-sm-9">
-                <p class="mb-0">
-                    <%= userProfileInfo.firstname + " " +
-                    userProfileInfo.lastname %>
-                </p>
+                <p class="mb-0"><%= info.firstname + " " + info.lastname %></p>
             </div>
         </div>
         <hr />
@@ -33,7 +30,7 @@
                 <p class="text-muted mb-0">Email</p>
             </div>
             <div class="col-sm-9">
-                <p class="mb-0"><%= userProfileInfo.email %></p>
+                <p class="mb-0"><%= info.email %></p>
             </div>
         </div>
         <hr />
@@ -42,9 +39,7 @@
                 <p class="text-muted mb-0">Joined on</p>
             </div>
             <div class="col-sm-9">
-                <p class="mb-0">
-                    <%= userProfileInfo.joinedon.toDateString() %>
-                </p>
+                <p class="mb-0"><%= info.joinedon.toDateString() %></p>
             </div>
         </div>
         <hr />
@@ -52,8 +47,11 @@
             <div class="col-sm-3">
                 <p class="text-muted mb-0">Status</p>
             </div>
-            <div class="col-sm-9">
-                <p class="mb-0"><%= userProfileInfo.status %></p>
+            <div class="col-sm-9 d-flex justify-content-between">
+                <p class="mb-0"><%= info.status %></p>
+                <% if (info.userid === user.userid && !user.isadmin) { %>
+                <a class="link-success pe-4" href="/upgrade">Upgrade</a>
+                <% } %>
             </div>
         </div>
         <hr />
@@ -62,7 +60,7 @@
                 <p class="text-muted mb-0">Posts</p>
             </div>
             <div class="col-sm-9">
-                <p class="mb-0"><%= userProfileInfo.postscount %></p>
+                <p class="mb-0"><%= info.postscount %></p>
             </div>
         </div>
     </div>
