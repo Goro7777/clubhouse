@@ -35,6 +35,8 @@
         <a class="link-primary pe-4" href="/editPost/<%= post.postid %>"
             >Edit</a
         >
+        <% } %> <% if (locals.user?.userid === post.userid ||
+        locals.user?.isadmin) { %>
         <a class="link-danger pe-4" href="/deletePost/<%= post.postid %>"
             >Delete</a
         >

@@ -1,0 +1,33 @@
+<h2 class="fw-bold mb-5 text-uppercase">
+    Upgrade Status To <span class="text-warning">Member</span>
+</h2>
+
+<ul class="list-group card-body ms-3">
+    <li class="list-group-item">
+        You will be able to see profiles and contact information of all users.
+    </li>
+</ul>
+
+<form class="card-body my-5 ms-3" action="/upgrade" method="POST">
+    <div class="mb-md-1 mt-md-1 pb-5 pt-2">
+        <div data-mdb-input-init class="form-outline form-white mb-4">
+            <label class="form-label ms-3" for="passcode"
+                >To become a <strong class="text-warning">member</strong>, enter
+                the secret <strong>passcode</strong>. (It's "<%=
+                process.env.MEMBERSHIP_PASSCODE %>")</label
+            >
+            <input
+                type="password"
+                id="passcode"
+                name="passcode"
+                class="form-control border-success"
+                required
+            />
+            <% if (locals.passcodeError) { %>
+            <div class="text-warning">Incorrect</div>
+            <% } %>
+        </div>
+
+        <button class="btn btn-outline-success px-5" type="submit">Send</button>
+    </div>
+</form>

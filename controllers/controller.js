@@ -203,7 +203,7 @@ const deletePostGet = async (req, res) => {
     let { postid } = req.params;
     let post = await db.getPost(postid);
 
-    if (!req.user.isAdmin && post?.userid !== req.user.userid)
+    if (!req.user.isadmin && post?.userid !== req.user.userid)
         return res.status(400).render("pages/error", {
             message:
                 "400 - Bad Request: You are not allowed to delete this post.",
@@ -244,7 +244,9 @@ const upgradePost = async (req, res) => {
             req.session.passcodeError = true;
             res.redirect("/upgrade");
         }
-    } else {
+    } else if (!req.user.isadmin) {
+        await db.requestUserAdmin(req.user.userid);
+        res.redirect("/upgrade");
     }
 };
 
