@@ -14,7 +14,7 @@ const allPostsGet = async (req, res) => {
 const loginGet = async (req, res) => {
     if (req.isAuthenticated()) {
         return res.status(400).render("pages/error", {
-            message: "400 - Bad Request: You are already logged in.",
+            message: "400 Bad Request: You are already logged in.",
         });
     }
 
@@ -42,7 +42,7 @@ const loginPost = passport.authenticate("local", {
 const signupGet = (req, res) => {
     if (req.isAuthenticated()) {
         return res.status(400).render("pages/error", {
-            message: "400 - Bad Request: You already have an account.",
+            message: "400 Bad Request: You already have an account.",
         });
     }
 
@@ -90,8 +90,7 @@ const logoutGet = (req, res, next) => {
 const newPostGet = (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).render("pages/error", {
-            message:
-                "401 - Unauthorized: You need to log in to be able to post.",
+            message: "401 Unauthorized: You are not logged in.",
         });
     }
     let { values, errors } = req.session.redirectData || {};
@@ -133,7 +132,7 @@ const newPostPost = [
 const editPostGet = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).render("pages/error", {
-            message: "401 - Unauthorized: You cannot edit posts.",
+            message: "401 Unauthorized: You are not logged in.",
         });
     }
 
@@ -147,9 +146,8 @@ const editPostGet = async (req, res) => {
         let post = await db.getPost(postid);
 
         if (post.userid !== req.user.userid) {
-            return res.status(400).render("pages/error", {
-                message:
-                    "400 - Bad Request: You are not allowed to edit this post.",
+            return res.status(403).render("pages/error", {
+                message: "403 Forbidden: You cannot edit another user's post.",
             });
         } else {
             values = post;
@@ -194,19 +192,17 @@ const editPostPost = [
 
 const deletePostGet = async (req, res) => {
     if (!req.isAuthenticated()) {
-        res.render("pages/error", {
-            message: "400 - Bad Request: You are not allowed to delete a post.",
+        return res.status(401).render("pages/error", {
+            message: "401 Unauthorized: You are not logged in.",
         });
-        return;
     }
 
     let { postid } = req.params;
     let post = await db.getPost(postid);
 
     if (!req.user.isadmin && post?.userid !== req.user.userid)
-        return res.status(400).render("pages/error", {
-            message:
-                "400 - Bad Request: You are not allowed to delete this post.",
+        return res.status(403).render("pages/error", {
+            message: "403 Forbidden: You cannot delete another user's post.",
         });
 
     await db.deletePost(postid);
@@ -214,9 +210,21 @@ const deletePostGet = async (req, res) => {
 };
 
 const profileGet = async (req, res) => {
-    // add isAuthenticated check here
+    if (!req.isAuthenticated()) {
+        return res.status(401).render("pages/error", {
+            message: "401 Unauthorized: You are not logged in.",
+        });
+    }
 
     let { userid } = req.params;
+    if (userid != req.user.userid) {
+        if (!req.user.ismember && !req.user.isadmin) {
+            return res.status(403).render("pages/error", {
+                message: "403 Forbidden: You are not a member.",
+            });
+        }
+    }
+
     let info = await db.getUserProfileInfo(userid);
     info.status = info.isadmin ? "Admin" : info.ismember ? "Member" : "User";
 
@@ -228,7 +236,17 @@ const rulesGet = async (req, res) => {
 };
 
 const upgradeGet = async (req, res) => {
-    // add isAuthenticated check here
+    if (!req.isAuthenticated()) {
+        return res.status(401).render("pages/error", {
+            message: "401 Unauthorized: You are not logged in.",
+        });
+    }
+
+    if (req.user.isadmin) {
+        return res.status(400).render("pages/error", {
+            message: "401 Bad Request: You are already an admin.",
+        });
+    }
 
     let { passcodeError } = req.session;
     res.render("pages/upgrade", { passcodeError });

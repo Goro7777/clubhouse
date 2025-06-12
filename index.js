@@ -26,13 +26,10 @@ app.use(
     session({
         store: new pgSession({
             pool,
-            // Insert connect-pg-simple options here
         }),
         secret: process.env.FOO_COOKIE_SECRET,
         resave: false,
         saveUninitialized: false,
-        // cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
-        // Insert express-session options here
     })
 );
 
@@ -41,6 +38,7 @@ require("./auth/passport");
 app.use(passport.initialize());
 app.use(passport.session());
 
+// To make user available in all views
 app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
@@ -48,10 +46,17 @@ app.use((req, res, next) => {
 
 app.use("/", router);
 
-// catch-all middleware for handling errors
+app.use((req, res) =>
+    res.status(404).render("pages/error", {
+        message: "404 Not Found: There is no such resource.",
+    })
+);
+
 app.use((err, req, res, next) => {
     console.error(err);
-    res.redirect("/");
+    res.render("pages/error", {
+        message: "An error occurred while processing your request.",
+    });
 });
 
 const PORT = process.env.PORT || 3000;
