@@ -226,7 +226,11 @@ const profileGet = async (req, res) => {
     }
 
     let info = await db.getUserProfileInfo(userid);
-    info.status = info.isadmin ? "Admin" : info.ismember ? "Member" : "User";
+    info.status = info.isadmin
+        ? "Admin"
+        : info.ismember
+        ? "Club member"
+        : "User";
 
     res.render("pages/profile", { info });
 };
